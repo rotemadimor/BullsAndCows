@@ -10,7 +10,7 @@ namespace Ex02
     internal class GameUI
     {
         private int m_numberOfGuesses;
-        private int nisayon;
+        
         public GameUI() { }
         public void Start()
         {
