@@ -11,7 +11,6 @@ namespace Ex02
     {
         public static void Main()
         {
-
             GameUI gameUI = new GameUI();
             gameUI.Start();
         }
