@@ -57,6 +57,67 @@ namespace Ex02
 
             return isUnique;
         }
+        private bool isTheCurrentGuessAWin(StringBuilder i_guessFromUser)
+        {
+            bool isWin = true;
+            if (!isGuessValid(i_guessFromUser))
+            {
+                isWin = false;
+            }
+            else
+            {
+                for (int index = 0; index < m_correctAnswer.Length; index++)
+                {
+                    if (i_guessFromUser[index] != m_correctAnswer[index])
+                    {
+                        isWin = false;
+                    }
+                }
+            }
+            return isWin;
+
+
+            // if (bulls == 4)
+            //return true;
+        }
+        public void checkHowManyCowsAndBulls(StringBuilder i_guessFromUser, ref int bulls, ref int cows)
+        {
+            for (int index = 0; index < m_correctAnswer.Length; index++)
+            {
+                if (i_guessFromUser[index] == m_correctAnswer[index])
+                {
+                    bulls++;
+                }
+                else if (m_correctAnswer.ToString().Contains(i_guessFromUser[index]))
+                {
+                    cows++;
+                }
+            }
+
+        }
+        private bool isGuessValid(StringBuilder i_guessFromUser)
+        {
+            bool isValid = true;
+            if (i_guessFromUser.Length != m_correctAnswer.Length)
+            {
+                isValid = false;
+            }
+            else
+            {
+                for (int index = 0; index < i_guessFromUser.Length; index++)
+                {
+                    if (!isUnique(i_guessFromUser[index], index))
+                    {
+                        isValid = false;
+                    }
+                    else if (i_guessFromUser[index] < 65 || i_guessFromUser[index] > 72)
+                    {
+                        isValid = false;
+                    }
+                }
+            }
+            return isValid;
+        }
 
 
         private struct Guess
