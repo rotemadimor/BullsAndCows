@@ -11,7 +11,7 @@ namespace Ex02
     {
         public static void Main()
         {
-            Game.Start();
+            //Game.Start();
         }
     }
 }

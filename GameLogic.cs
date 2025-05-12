@@ -21,6 +21,8 @@ namespace Ex02
                 return m_correctAnswer;
             }
         }
+
+
         public GameLogic(int i_numberOfGuesses)
         {
             setRandomStringToGuess();
@@ -28,6 +30,13 @@ namespace Ex02
             m_guesses.Capacity = i_numberOfGuesses;
         }
 
+        private void run(StringBuilder i_guessFromUser)
+        {
+            int bulls = 0, cows = 0;
+            checkHowManyCowsAndBulls(i_guessFromUser, ref bulls, ref cows);
+            Guess guess = new Guess(i_guessFromUser.ToString(), bulls, cows, isTheCurrentGuessAWin(i_guessFromUser));
+            m_guesses.Add(guess);
+        }
         private void setRandomStringToGuess()
         {
             Random randomSeed = new Random();
@@ -37,14 +46,14 @@ namespace Ex02
             while(numberOfFilledChars < m_correctAnswer.Length)
             {
                 char c = (char)randomSeed.Next(65, 73);
-                if(isUnique(c,numberOfFilledChars))
+                if(isCharUniqueInGuess(c,numberOfFilledChars))
                 {
                     m_correctAnswer[numberOfFilledChars++] = c;
                 }
             }
         }
 
-        private bool isUnique(char i_charToCheck, int i_indexToCheck)
+        private bool isCharUniqueInGuess(char i_charToCheck, int i_indexToCheck)
         {
             bool isUnique = true;
             for(int index = i_indexToCheck; index > 0; index--)
@@ -106,7 +115,7 @@ namespace Ex02
             {
                 for (int index = 0; index < i_guessFromUser.Length; index++)
                 {
-                    if (!isUnique(i_guessFromUser[index], index))
+                    if (!isCharUniqueInGuess(i_guessFromUser[index], index))
                     {
                         isValid = false;
                     }
@@ -120,17 +129,17 @@ namespace Ex02
         }
 
 
-        private struct Guess
+        internal struct Guess
         {
-            private string m_guessFromUser;
-            private int m_bulls;
-            private int m_cows;
-            private bool m_isWin;
+            private string m_guessFromUser { get; set; }
+            private int m_bulls { get; set; }
+            private int m_cows { get; set; }
+            private bool m_isWin { get; set; }
 
-            public Guess(string i_guessFromUser, int i_bulls, int i_cows, bool i_isWin)
+            public Guess(string i_guessFromUser,int i_bulls,int i_cows, bool i_isWin)
             {
                 m_guessFromUser = i_guessFromUser;
-                m_bulls = i_bulls;
+                m_bulls = i_bulls; 
                 m_cows = i_cows;
                 m_isWin = i_isWin;
             }
