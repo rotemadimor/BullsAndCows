@@ -73,6 +73,19 @@ namespace Ex02
                 m_cows = i_cows;
                 m_isWin = i_isWin;
             }
+
         }
+
+        private bool isFailedGame()
+        {
+            return false;
+        }
+
+        private bool isUserQuitGame()
+        {
+            return false;
+        }
+
+
     }
 }

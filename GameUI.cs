@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ex02.ConsoleUtils;
 
 
 namespace Ex02
@@ -10,45 +11,51 @@ namespace Ex02
     internal class GameUI
     {
         private int m_numberOfGuesses;
-        
+        //private guess guesses;
 
         public GameUI() { }
         public void Start()
         {
-            char[,] table = new char[24, 19];
-            for(int i = 0; i < 24; i++)
+            Console.WriteLine("Type number of guesses:");
+            m_numberOfGuesses = Convert.ToInt32(Console.ReadLine());
+            Screen.Clear();
+            printTable(m_numberOfGuesses);
+        }
+
+        private static void printTable(int i_numberOfGuesses)
+        {
+            
+            Console.WriteLine("Current board status:");
+            Console.WriteLine("|Pins:    |Result:   |");
+            Console.WriteLine("|=========|==========|");
+
+            for(int i = 0; i < i_numberOfGuesses; i++)
             {
-                for (int j = 0; j < 19; j++)
-                {
-                    if(j == 0 || j == 10 || j == 18)
-                    {
-                        table[i, j] = '|';
-                    }
-                    else if (i % 2 != 0)
-                    {
-                        table[i, j] = '=';
-                    }
-                    else
-                    {
-                        table[i, j] = ' ';
-                    }
-                }
-                
+                Console.WriteLine("|         |          |");
+                Console.WriteLine("|=========|==========|");
             }
-            printTable(table);
             Console.ReadLine();
         }
 
-        private static void printTable(char[,] table)
+        private void printGuessToTable()
         {
-            for(int i = 0; i < 24; i++)
-            {
-                for(int j = 0; j < 19; j++)
-                {
-                    Console.Write(table[i, j]);
-                }
-                Console.WriteLine();
-            }
+            printUserInputToTable();
+            printResultToTable();
         }
+        private void printUserInputToTable()
+        {
+
+        }
+
+        private void printResultToTable()
+        {
+
+        }
+
+        private void printGameSummery()
+        {
+
+        }
+
     }
 }
