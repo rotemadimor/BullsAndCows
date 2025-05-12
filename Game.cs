@@ -14,14 +14,14 @@ namespace Ex02
 
         public void Start()
         {
-            m_gameUI.start();
+            m_gameUI.Start();
 
             GameLoop();
         }
 
         public void GameLoop()
         {
-            m_gameUI.start();
+            m_gameUI.Start();
         }
 
     }
