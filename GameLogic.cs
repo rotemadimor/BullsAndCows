@@ -7,14 +7,14 @@ using System.Runtime.InteropServices;
 
 namespace Ex02
 {
-    internal class GameLogic
+    internal class GameLogic<T>
     {
-        private List<Guess> m_guesses = new List<Guess>();
+        private List< Guess<T>> m_guesses = new List< Guess<T>>();
         private int m_numberOfGusses;
-        private StringBuilder m_correctAnswer;
+        private  Guess<T> m_correctAnswer;
 
         public int NumberOfGuesses { get; set; }
-        public StringBuilder CorrectAnswer
+        public  Guess<T> CorrectAnswer
         {
             get
             {
@@ -25,22 +25,21 @@ namespace Ex02
 
         public GameLogic(int i_numberOfGuesses)
         {
-            setRandomStringToGuess();
+            setRandomCorrectAnswer();
             NumberOfGuesses = i_numberOfGuesses;
             m_guesses.Capacity = i_numberOfGuesses;
         }
 
-        private void run(StringBuilder i_guessFromUser)
+        private void addGuessToList(StringBuilder i_guessFromUser)
         {
             int bulls = 0, cows = 0;
             checkHowManyCowsAndBulls(i_guessFromUser, ref bulls, ref cows);
-            Guess guess = new Guess(i_guessFromUser.ToString(), bulls, cows, isTheCurrentGuessAWin(i_guessFromUser));
+            Guess<T> guess = new Guess<T>(i_guessFromUser.ToString(), bulls, cows /*,isTheCurrentGuessAWin(i_guessFromUser)*/);
             m_guesses.Add(guess);
         }
-        private void setRandomStringToGuess()
+        private void setRandomCorrectAnswer()
         {
             Random randomSeed = new Random();
-            m_correctAnswer = new StringBuilder(4);
             int numberOfFilledChars = 0;
 
             while(numberOfFilledChars < m_correctAnswer.Length)
@@ -51,6 +50,8 @@ namespace Ex02
                     m_correctAnswer[numberOfFilledChars++] = c;
                 }
             }
+
+            m_correctAnswer = new Guess<T>(/*m_correctAnswer.ToString()*/ 0, 0 /*,false*/);
         }
 
         private bool isCharUniqueInGuess(char i_charToCheck, int i_indexToCheck)
@@ -127,22 +128,29 @@ namespace Ex02
             }
             return isValid;
         }
-
-
-        internal struct Guess
+        private bool isFailedGame()
         {
-            private string m_guessFromUser { get; set; }
-            private int m_bulls { get; set; }
-            private int m_cows { get; set; }
-            private bool m_isWin { get; set; }
+            return false;
+        }
 
-            public Guess(string i_guessFromUser,int i_bulls,int i_cows, bool i_isWin)
-            {
-                m_guessFromUser = i_guessFromUser;
-                m_bulls = i_bulls; 
-                m_cows = i_cows;
-                m_isWin = i_isWin;
-            }
+        private bool isUserQuitGame()
+        {
+            return false;
+        }
+
+
+        }
+
+        private bool isFailedGame()
+        {
+            return false;
+        }
+
+        private bool isUserQuitGame()
+        {
+            return false;
+        }
+
 
         }
 
