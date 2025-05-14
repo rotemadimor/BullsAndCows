@@ -39,11 +39,13 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameLogic.cs" />
     <Compile Include="GameUI.cs" />
+    <Compile Include="Guess.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Result.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ex02.ConsoleUtils">
-      <HintPath>..\..\..\Downloads\Ex02.ConsoleUtils.dll</HintPath>
+      <HintPath>..\..\Mac\Home\Documents\noa\Ex02.ConsoleUtils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
