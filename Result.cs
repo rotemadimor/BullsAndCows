@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +8,12 @@ namespace Ex02
 {
     internal struct Result
     {
-        private int m_bulls { get; set; }
-        private int m_cows { get; set; }
-
-        public Result (int i_bulls, int i_cows)
+        public int Bulls { get; set; }
+        public int Cows { get; set; }
+        public Result(int i_bulls, int i_cows)
         {
-            m_bulls = i_bulls;
-            m_cows = i_cows;
+            Bulls = i_bulls;
+            Cows = i_cows;
         }
     }
 }
