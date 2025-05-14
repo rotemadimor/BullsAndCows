@@ -9,31 +9,30 @@ namespace Ex02
     internal class Guess<T>
     {
         private Result m_result;
-        private List<T> m_guessedSequence;
+        //private List<T> m_guessedSequence;
         public List<T> GuessedSequence { get; set; }
         public Result ResultOfGuess { get; set; }
         
         public Guess(List<T> i_guessFromUser, int i_bulls, int i_cows)
         {
-            m_guessedSequence = i_guessFromUser;
-            m_result = new Result(i_bulls, i_cows);
+            GuessedSequence = new List<T>(i_guessFromUser);
+            ResultOfGuess = new Result(i_bulls, i_cows);
         }
         public Guess(List<T> i_guessFromUser, List<T> i_itemsToChooseFrom)
         {
             if (isGuessValid(i_guessFromUser, i_itemsToChooseFrom))
             {
-                GuessedSequence = i_guessFromUser;
+                GuessedSequence = new List<T>(i_guessFromUser);
             }
             else
             {
-                m_guessedSequence.Clear();
+                GuessedSequence.Clear();
             }
         }
         public Guess(List<T> i_itemsToChooseFrom, Random i_randomSeed)
         {
             GuessedSequence = setRandomT(i_itemsToChooseFrom, i_randomSeed);
-            ResultOfGuess = new Result();
-            ResultOfGuess.Bulls = GuessedSequence.Count;
+            ResultOfGuess = new Result(4, 0);
         }
         private List<T> setRandomT(List<T> i_itemsToChooseFrom, Random randomSeed)
         {

@@ -67,7 +67,9 @@ namespace Ex02
 
         public void PrintGuessesToTable(List<Guess<char>> i_guesses)
         {
-            foreach(Guess<char> guessToPrint in i_guesses)
+            Screen.Clear();
+            printHeadlineOfTable();
+            foreach (Guess<char> guessToPrint in i_guesses)
             {
                 printGuess(guessToPrint);
             }
@@ -85,7 +87,7 @@ namespace Ex02
         private static string printableUserInputToTable(Guess<char> i_guessToPrint)
         {
             string guessSequence = i_guessToPrint.GuessedSequence.ToString();
-            return addSpacesBetweenChars(guessSequence);  
+            return addSpacesBetweenChars(guessSequence).ToString();  
         }
 
         private static string printableResultToTable(Result i_resultToPrint)
@@ -99,7 +101,7 @@ namespace Ex02
             {
                 printableResult.Append('X');
             }
-            return addSpacesBetweenChars(printableResult.ToString());
+            return addSpacesBetweenChars(printableResult.ToString()).ToString();
         }
 
         public void PrintGameSummeryWin(List<Guess<char>> i_guesses)
