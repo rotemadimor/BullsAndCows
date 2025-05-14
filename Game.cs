@@ -53,10 +53,9 @@ namespace Ex02
                 }
 
             }
-            printGoodbye();
         }
 
-        private static void printGoodbye()
+        public void PrintGoodbye()
         {
             Console.WriteLine("Bye Bye!! press any key to continue...");
             Console.ReadLine();
