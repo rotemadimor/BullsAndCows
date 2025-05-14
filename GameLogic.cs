@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,161 +9,92 @@ namespace Ex02
 {
     internal class GameLogic<T>
     {
-        private List< Guess<T>> m_guesses = new List< Guess<T>>();
+        private List<Guess<T>> m_listOfGuesses;
         private int m_numberOfGusses;
-        private  Guess<T> m_correctAnswer;
+        private Guess<T> m_correctAnswer;
 
+        public List<Guess<T>> ListOfGuesses { get; set; }
         public int NumberOfGuesses { get; set; }
-        public  Guess<T> CorrectAnswer
-        {
-            get
-            {
-                return m_correctAnswer;
-            }
-        }
+        public Guess<T> CorrectAnswer { get; }
 
-
-        public GameLogic(int i_numberOfGuesses)
+        public GameLogic(int i_numberOfGuesses, List<T> i_itemsToChooseFrom)
         {
-            setRandomCorrectAnswer();
+            setRandomCorrectAnswer(i_itemsToChooseFrom);
             NumberOfGuesses = i_numberOfGuesses;
-            m_guesses.Capacity = i_numberOfGuesses;
+            m_listOfGuesses = new List<Guess<T>>(NumberOfGuesses);
         }
 
-        private void addGuessToList(StringBuilder i_guessFromUser)
+        public bool addGuessToList(List<T> i_guessFromUser, List<T> i_itemsToChooseFrom)
         {
-            int bulls = 0, cows = 0;
-            checkHowManyCowsAndBulls(i_guessFromUser, ref bulls, ref cows);
-            Guess<T> guess = new Guess<T>(i_guessFromUser.ToString(), bulls, cows /*,isTheCurrentGuessAWin(i_guessFromUser)*/);
-            m_guesses.Add(guess);
-        }
-        private void setRandomCorrectAnswer()
-        {
-            Random randomSeed = new Random();
-            int numberOfFilledChars = 0;
+            bool isAddedToList = false;
+            Guess<T> guess = new Guess<T>(i_guessFromUser, i_itemsToChooseFrom);
 
-            while(numberOfFilledChars < m_correctAnswer.Length)
+            if(guess.GuessedSequence.Count != 0)
             {
-                char c = (char)randomSeed.Next(65, 73);
-                if(isCharUniqueInGuess(c,numberOfFilledChars))
-                {
-                    m_correctAnswer[numberOfFilledChars++] = c;
-                }
+                checkHowManyCowsAndBulls(i_guessFromUser, guess.ResultOfGuess.Bulls, guess.ResultOfGuess.Cows);
+                m_listOfGuesses.Add(guess);
+                isAddedToList = true;
             }
-
-            m_correctAnswer = new Guess<T>(/*m_correctAnswer.ToString()*/ 0, 0 /*,false*/);
+            return isAddedToList;
+        }
+        private void setRandomCorrectAnswer(List<T> i_itemsToChooseFrom)
+        {
+            Random random = new Random();
+            m_correctAnswer = new Guess<T>(i_itemsToChooseFrom, random);
         }
 
-        private bool isCharUniqueInGuess(char i_charToCheck, int i_indexToCheck)
+        public bool IsTheCurrentGuessAWin(Guess<T> i_guessFromUser)
         {
-            bool isUnique = true;
-            for(int index = i_indexToCheck; index > 0; index--)
+            bool isTheCurrentGuess = false;
+            if (i_guessFromUser.ResultOfGuess.Bulls == 4) 
             {
-                if(i_charToCheck == (char)CorrectAnswer[index])
-                {
-                    isUnique = false;
-                }
+                isTheCurrentGuess = true;
             }
-
-            return isUnique;
+            return isTheCurrentGuess;
         }
-        private bool isTheCurrentGuessAWin(StringBuilder i_guessFromUser)
+        public void checkHowManyCowsAndBulls(List<T> i_guessFromUser, int bulls, int cows)
         {
-            bool isWin = true;
-            if (!isGuessValid(i_guessFromUser))
+            for (int index = 0; index < i_guessFromUser.Count; index++)
             {
-                isWin = false;
-            }
-            else
-            {
-                for (int index = 0; index < m_correctAnswer.Length; index++)
-                {
-                    if (i_guessFromUser[index] != m_correctAnswer[index])
-                    {
-                        isWin = false;
-                    }
-                }
-            }
-            return isWin;
-
-
-            // if (bulls == 4)
-            //return true;
-        }
-        public void checkHowManyCowsAndBulls(StringBuilder i_guessFromUser, ref int bulls, ref int cows)
-        {
-            for (int index = 0; index < m_correctAnswer.Length; index++)
-            {
-                if (i_guessFromUser[index] == m_correctAnswer[index])
+                if (isCellBull(i_guessFromUser, index))
                 {
                     bulls++;
                 }
-                else if (m_correctAnswer.ToString().Contains(i_guessFromUser[index]))
+                else if (isCellCow(i_guessFromUser, index))
                 {
                     cows++;
                 }
             }
-
         }
-        private bool isGuessValid(StringBuilder i_guessFromUser)
+        private bool isCellCow(List<T> i_guessFromUser, int index)
         {
-            bool isValid = true;
-            if (i_guessFromUser.Length != m_correctAnswer.Length)
+            return i_guessFromUser.Contains(m_correctAnswer.GuessedSequence[index]);
+        }
+
+        private bool isCellBull(List<T> i_guessFromUser, int index)
+        {
+            return i_guessFromUser[index].Equals(m_correctAnswer.GuessedSequence[index]);
+        }
+
+        public bool IsFailedGame()
+        {
+            bool isFailedGame = false;
+            if(m_listOfGuesses.Count == m_numberOfGusses && !IsTheCurrentGuessAWin(ListOfGuesses[m_numberOfGusses-1]))
             {
-                isValid = false;
+                isFailedGame = true;
             }
-            else
+            return isFailedGame;
+        }
+
+        public bool IsUserQuitGame(List<T> i_inputFromUser, List<T> i_quitingInput)
+        {
+            bool isUserQuitGame = false;    
+            if(i_inputFromUser.Equals(i_quitingInput))
             {
-                for (int index = 0; index < i_guessFromUser.Length; index++)
-                {
-                    if (!isCharUniqueInGuess(i_guessFromUser[index], index))
-                    {
-                        isValid = false;
-                    }
-                    else if (i_guessFromUser[index] < 65 || i_guessFromUser[index] > 72)
-                    {
-                        isValid = false;
-                    }
-                }
+                isUserQuitGame = true;
             }
-            return isValid;
+            return isUserQuitGame;
         }
-        private bool isFailedGame()
-        {
-            return false;
-        }
-
-        private bool isUserQuitGame()
-        {
-            return false;
-        }
-
-
-        }
-
-        private bool isFailedGame()
-        {
-            return false;
-        }
-
-        private bool isUserQuitGame()
-        {
-            return false;
-        }
-
-
-        }
-
-        private bool isFailedGame()
-        {
-            return false;
-        }
-
-        private bool isUserQuitGame()
-        {
-            return false;
-        }
-
 
     }
 }
