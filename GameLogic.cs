@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace Ex02
 {
-    internal class GameLogic
+    internal class GameLogic<T>
     {
         private List<Guess<T>> m_listOfGuesses;
         private int m_numberOfGusses;
