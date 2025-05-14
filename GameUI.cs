@@ -14,6 +14,8 @@ namespace Ex02
         private int m_numberOfGuesses;
         public int NumberOfGuesses { get; set; }
 
+        public GameUI() { }
+
         public void Start()
         {
             Screen.Clear();
@@ -52,7 +54,6 @@ namespace Ex02
                 Console.WriteLine("|         |          |");
                 Console.WriteLine("|=========|==========|");
             }
-            Console.ReadLine();
         }
 
         private static void printHeadlineOfTable()

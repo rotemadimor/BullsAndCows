@@ -13,7 +13,6 @@ namespace Ex02
         public List<T> GuessedSequence { get; set; }
         public Result ResultOfGuess { get; set; }
         
-
         public Guess(List<T> i_guessFromUser, int i_bulls, int i_cows)
         {
             m_guessedSequence = i_guessFromUser;
@@ -23,7 +22,7 @@ namespace Ex02
         {
             if (isGuessValid(i_guessFromUser, i_itemsToChooseFrom))
             {
-                m_guessedSequence = i_guessFromUser;
+                GuessedSequence = i_guessFromUser;
             }
             else
             {
@@ -32,8 +31,9 @@ namespace Ex02
         }
         public Guess(List<T> i_itemsToChooseFrom, Random i_randomSeed)
         {
-            m_guessedSequence = setRandomT(i_itemsToChooseFrom, i_randomSeed);
-            m_result.Bulls = m_guessedSequence.Count;
+            GuessedSequence = setRandomT(i_itemsToChooseFrom, i_randomSeed);
+            ResultOfGuess = new Result();
+            ResultOfGuess.Bulls = GuessedSequence.Count;
         }
         private List<T> setRandomT(List<T> i_itemsToChooseFrom, Random randomSeed)
         {
@@ -44,7 +44,8 @@ namespace Ex02
                 T randomCell = GetRandomFromList(i_itemsToChooseFrom, randomSeed);
                 if (isCellUniqueInGuess(randomCell, numberOfFilledCells,randomGuess))
                 {
-                    randomGuess[numberOfFilledCells++] = randomCell;
+                    randomGuess.Add(randomCell);
+                    numberOfFilledCells++;
                 }
             }
 
@@ -60,7 +61,7 @@ namespace Ex02
         private bool isCellUniqueInGuess(T i_cellToCheck, int i_indexToCheck, List<T> i_arrayToCheck)
         {
             bool isUnique = true;
-            for (int index = i_indexToCheck; index > 0; index--)
+            for (int index = 0; index < i_indexToCheck; index++)
             {
                 if (i_cellToCheck.Equals(i_arrayToCheck[index]))
                 {
