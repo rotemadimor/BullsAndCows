@@ -39,7 +39,7 @@ namespace Ex02
                     }
                     else
                     {
-                        m_gameUI.PrintGuessesToTable(m_gameLogic.ListOfGuesses);
+                        m_gameUI.PrintTableWithGuesses(m_gameLogic.ListOfGuesses);
                         if (m_gameLogic.IsTheCurrentGuessAWin(m_gameLogic.ListOfGuesses[i]))
                         {
                             m_gameUI.PrintGameSummeryWin(m_gameLogic.ListOfGuesses);
@@ -48,7 +48,10 @@ namespace Ex02
                         {
                             m_gameUI.PrintGameSummeryLose(m_gameLogic.ListOfGuesses);
                         }
-
+                        else
+                        {
+                            continue;
+                        }
                         isContinueToANewGame();
                         break;
                     }

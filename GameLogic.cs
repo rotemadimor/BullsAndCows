@@ -29,9 +29,11 @@ namespace Ex02
             bool isAddedToList = false;
             Guess<T> guess = new Guess<T>(i_guessFromUser, i_itemsToChooseFrom);
 
-            if(guess.GuessedSequence.Count != 0)
+            if (guess.GuessedSequence.Count != 0)
             {
-                checkHowManyCowsAndBulls(i_guessFromUser, guess.ResultOfGuess.Bulls, guess.ResultOfGuess.Cows);
+                int bulls = 0, cows = 0;
+                checkHowManyCowsAndBulls(i_guessFromUser, ref bulls, ref cows);
+                guess.ResultOfGuess = new Result(bulls, cows);
                 ListOfGuesses.Add(guess);
                 isAddedToList = true;
             }
@@ -52,7 +54,7 @@ namespace Ex02
             }
             return isTheCurrentGuess;
         }
-        public void checkHowManyCowsAndBulls(List<T> i_guessFromUser, int bulls, int cows)
+        public void checkHowManyCowsAndBulls(List<T> i_guessFromUser, ref int bulls, ref int cows)
         {
             for (int index = 0; index < i_guessFromUser.Count; index++)
             {
