@@ -26,12 +26,16 @@ namespace Ex02
 
         public bool addGuessToList(List<T> i_guessFromUser, List<T> i_itemsToChooseFrom)
         {
-            bool isAddedToList = false;
+            bool isAddedToList;
+            int bulls = 0, cows = 0;
             Guess<T> guess = new Guess<T>(i_guessFromUser, i_itemsToChooseFrom);
-
-            if (guess.GuessedSequence.Count != 0)
+            //
+            if (!guess.IsGuessValid(i_guessFromUser, i_itemsToChooseFrom))
             {
-                int bulls = 0, cows = 0;
+                isAddedToList = false;
+            }
+            else
+            {
                 checkHowManyCowsAndBulls(i_guessFromUser, ref bulls, ref cows);
                 guess.ResultOfGuess = new Result(bulls, cows);
                 ListOfGuesses.Add(guess);

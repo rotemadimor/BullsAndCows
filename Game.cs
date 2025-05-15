@@ -39,14 +39,14 @@ namespace Ex02
                     }
                     else
                     {
-                        m_gameUI.PrintTableWithGuesses(m_gameLogic.ListOfGuesses);
+                        m_gameUI.PrintTableWithGuesses(m_gameLogic.ListOfGuesses, false, m_gameLogic.CorrectAnswer);
                         if (m_gameLogic.IsTheCurrentGuessAWin(m_gameLogic.ListOfGuesses[i]))
                         {
-                            m_gameUI.PrintGameSummeryWin(m_gameLogic.ListOfGuesses);
+                            m_gameUI.PrintGameSummery(m_gameLogic.ListOfGuesses,false,m_gameLogic.CorrectAnswer);
                         }
                         else if (m_gameLogic.IsFailedGame())
                         {
-                            m_gameUI.PrintGameSummeryLose(m_gameLogic.ListOfGuesses);
+                            m_gameUI.PrintGameSummery(m_gameLogic.ListOfGuesses, true, m_gameLogic.CorrectAnswer);
                         }
                         else
                         {

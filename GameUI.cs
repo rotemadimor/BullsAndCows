@@ -21,7 +21,7 @@ namespace Ex02
             Screen.Clear();
             Console.WriteLine("Type number of guesses:");
             NumberOfGuesses = Convert.ToInt32(Console.ReadLine());
-            printEmptyTable();
+            printEmptyTable(false,null);
         }
 
         public List<char> GetGuessInputFromUser()
@@ -31,10 +31,10 @@ namespace Ex02
             return input.ToList();
         }
 
-        public void PrintTableWithGuesses(List<Guess<char>> i_guesses)
+        public void PrintTableWithGuesses(List<Guess<char>> i_guesses, bool i_isGameLost, Guess<char> i_correctAnswer)
         {
             Screen.Clear();
-            printHeadlineOfTable();
+            printHeadlineOfTable(i_isGameLost,i_correctAnswer);
             int numberOfEmptyCells = NumberOfGuesses - i_guesses.Count;
             printGuessesToTable(i_guesses);
             for (int i = 0; i < numberOfEmptyCells; i++)
@@ -45,25 +45,35 @@ namespace Ex02
 
         }
 
-        private void printEmptyTable()
+        private void printEmptyTable(bool i_isGameLost, Guess<char> i_correctAnswer)
         {
             Screen.Clear();
-            printHeadlineOfTable();
+            printHeadlineOfTable(i_isGameLost, i_correctAnswer);
 
             for (int i = 0; i < NumberOfGuesses; i++)
             {
                 Console.WriteLine("|         |          |");
                 Console.WriteLine("|=========|==========|");
             }
+            
+
         }
 
-        private static void printHeadlineOfTable()
+        private static void printHeadlineOfTable(bool i_isGameLost, Guess<char> i_correctAnswer)
         {
             Console.WriteLine("Current board status:");
             Console.WriteLine("|Pins:    |Result:   |");
             Console.WriteLine("|=========|==========|");
+            if (i_isGameLost)
+            {
+                printGuess(i_correctAnswer);
+            }
+            else
+            {
             Console.WriteLine("| # # # # |          |");
             Console.WriteLine("|=========|==========|");
+            }
+           
         }
 
         private void printGuessesToTable(List<Guess<char>> i_guesses)
@@ -109,19 +119,20 @@ namespace Ex02
             return addSpacesBetweenChars(printableResult);
         }
 
-        public void PrintGameSummeryWin(List<Guess<char>> i_guesses)
+  
+        public void PrintGameSummery(List<Guess<char>> i_guesses, bool i_isGameLost, Guess<char> i_correctAnswer)
         {
             Screen.Clear();
-            PrintTableWithGuesses(i_guesses);
-            Console.WriteLine($"You guessed after {i_guesses.Count} steps!");
-        }
-
-        public void PrintGameSummeryLose(List<Guess<char>> i_guesses)
-        {
-            Screen.Clear();
-            PrintTableWithGuesses(i_guesses);
-            Console.WriteLine("No more guesses allowed. You Lost.");
-        }
+            PrintTableWithGuesses(i_guesses, i_isGameLost, i_correctAnswer);
+            if (i_isGameLost)
+            {
+                Console.WriteLine("No more guesses allowed. You Lost.");
+            }
+            else
+            {
+                Console.WriteLine($"You guessed after {i_guesses.Count} steps!");
+            }
+            }
 
         private static string addSpacesBetweenChars(string i_input)
         {

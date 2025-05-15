@@ -20,19 +20,12 @@ namespace Ex02
         }
         public Guess(List<T> i_guessFromUser, List<T> i_itemsToChooseFrom)
         {
-            if (isGuessValid(i_guessFromUser, i_itemsToChooseFrom))
-            {
-                GuessedSequence = new List<T>(i_guessFromUser);
-            }
-            else
-            {
-                GuessedSequence.Clear();
-            }
+           GuessedSequence = new List<T>(i_guessFromUser);
         }
         public Guess(List<T> i_itemsToChooseFrom, Random i_randomSeed)
         {
             GuessedSequence = setRandomT(i_itemsToChooseFrom, i_randomSeed);
-            ResultOfGuess = new Result(4, 0);
+            ResultOfGuess = new Result(0, 0);
         }
         private List<T> setRandomT(List<T> i_itemsToChooseFrom, Random randomSeed)
         {
@@ -70,21 +63,22 @@ namespace Ex02
 
             return isUnique;
         }
-        private bool isGuessValid(List<T> i_guessSequenceFromUser, List<T> i_itemsToChooseFrom)
+        public bool IsGuessValid(List<T> i_guessSequenceFromUser, List<T> i_itemsToChooseFrom)
         {
             bool isValid = true;
-            if (i_guessSequenceFromUser.Count != 4)
+            foreach (T guess in i_guessSequenceFromUser)
             {
-                isValid = false;
-            }
-            else
-            {
-                foreach (T guess in i_guessSequenceFromUser)
+                if (i_guessSequenceFromUser.Count != 4 || guess.GetType() != typeof(T))
                 {
-                    if (!i_itemsToChooseFrom.Contains(guess))
-                    {
-                        isValid = false;
-                    } 
+                    Console.WriteLine("Invalid input: use only uppercase English letters (A–Z), 4 characters required");
+                    isValid = false;
+                    break;
+                }
+                else if (!i_itemsToChooseFrom.Contains(guess))
+                {
+                    Console.WriteLine("Invalid guess: input must contain letters between A and H only");
+                    isValid = false;
+                    break;
                 }
             }
             return isValid;
