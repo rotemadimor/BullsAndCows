@@ -66,20 +66,34 @@ namespace Ex02
         public bool IsGuessValid(List<T> i_guessSequenceFromUser, List<T> i_itemsToChooseFrom)
         {
             bool isValid = true;
+            int index = 0;
             foreach (T guess in i_guessSequenceFromUser)
             {
                 if (i_guessSequenceFromUser.Count != 4 || guess.GetType() != typeof(T))
                 {
-                    Console.WriteLine("Invalid input: use only uppercase English letters (A–Z), 4 characters required");
+                    Console.WriteLine("Invalid input: 4 characters required");
+                    isValid = false;
+                    break;
+                }
+                else if (!char.IsLetter(char.Parse(guess.ToString())))
+                {
+                    Console.WriteLine("Invalid input: input must contain english letters only");
+                    isValid = false;
+                    break;
+                }
+                else if (!isCellUniqueInGuess(guess,index, i_guessSequenceFromUser))
+                {
+                    Console.WriteLine("Invalid input: input must contain unique english letters ");
                     isValid = false;
                     break;
                 }
                 else if (!i_itemsToChooseFrom.Contains(guess))
                 {
-                    Console.WriteLine("Invalid guess: input must contain letters between A and H only");
+                    Console.WriteLine("Invalid input: input must contain uppercase letters between A and H only");
                     isValid = false;
                     break;
                 }
+                 index++;
             }
             return isValid;
         }

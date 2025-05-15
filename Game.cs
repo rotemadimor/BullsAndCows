@@ -62,15 +62,15 @@ namespace Ex02
 
         public void PrintGoodbye()
         {
-            Console.WriteLine("Bye Bye!! press any key to continue...");
-            Console.ReadLine();
+            Console.WriteLine("Bye Bye!!");
+            
         }
 
         private void isContinueToANewGame()
         {
             Console.WriteLine("Would you like to start a new game? (Y/N)");
             string userAnswer = Console.ReadLine();
-            if (userAnswer == "N")
+            if (userAnswer.ToUpper() != "Y")
             {
                 m_isGameOn = false;
             }
