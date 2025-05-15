@@ -9,31 +9,23 @@ namespace Ex02
     internal class Guess<T>
     {
         private Result m_result;
-        private List<T> m_guessedSequence;
+        //private List<T> m_guessedSequence;
         public List<T> GuessedSequence { get; set; }
         public Result ResultOfGuess { get; set; }
         
-
         public Guess(List<T> i_guessFromUser, int i_bulls, int i_cows)
         {
-            m_guessedSequence = i_guessFromUser;
-            m_result = new Result(i_bulls, i_cows);
+            GuessedSequence = new List<T>(i_guessFromUser);
+            ResultOfGuess = new Result(i_bulls, i_cows);
         }
         public Guess(List<T> i_guessFromUser, List<T> i_itemsToChooseFrom)
         {
-            if (isGuessValid(i_guessFromUser, i_itemsToChooseFrom))
-            {
-                m_guessedSequence = i_guessFromUser;
-            }
-            else
-            {
-                m_guessedSequence.Clear();
-            }
+           GuessedSequence = new List<T>(i_guessFromUser);
         }
         public Guess(List<T> i_itemsToChooseFrom, Random i_randomSeed)
         {
-            m_guessedSequence = setRandomT(i_itemsToChooseFrom, i_randomSeed);
-            m_result.Bulls = m_guessedSequence.Count;
+            GuessedSequence = setRandomT(i_itemsToChooseFrom, i_randomSeed);
+            ResultOfGuess = new Result(0, 0);
         }
         private List<T> setRandomT(List<T> i_itemsToChooseFrom, Random randomSeed)
         {
@@ -44,7 +36,8 @@ namespace Ex02
                 T randomCell = GetRandomFromList(i_itemsToChooseFrom, randomSeed);
                 if (isCellUniqueInGuess(randomCell, numberOfFilledCells,randomGuess))
                 {
-                    randomGuess[numberOfFilledCells++] = randomCell;
+                    randomGuess.Add(randomCell);
+                    numberOfFilledCells++;
                 }
             }
 
@@ -60,7 +53,7 @@ namespace Ex02
         private bool isCellUniqueInGuess(T i_cellToCheck, int i_indexToCheck, List<T> i_arrayToCheck)
         {
             bool isUnique = true;
-            for (int index = i_indexToCheck; index > 0; index--)
+            for (int index = 0; index < i_indexToCheck; index++)
             {
                 if (i_cellToCheck.Equals(i_arrayToCheck[index]))
                 {
@@ -70,22 +63,37 @@ namespace Ex02
 
             return isUnique;
         }
-        private bool isGuessValid(List<T> i_guessSequenceFromUser, List<T> i_itemsToChooseFrom)
+        public bool IsGuessValid(List<T> i_guessSequenceFromUser, List<T> i_itemsToChooseFrom)
         {
             bool isValid = true;
-            if (i_guessSequenceFromUser.Count != 4)
+            int index = 0;
+            foreach (T guess in i_guessSequenceFromUser)
             {
-                isValid = false;
-            }
-            else
-            {
-                foreach (T guess in i_guessSequenceFromUser)
+                if (i_guessSequenceFromUser.Count != 4 || guess.GetType() != typeof(T))
                 {
-                    if (!i_itemsToChooseFrom.Contains(guess))
-                    {
-                        isValid = false;
-                    } 
+                    Console.WriteLine("Invalid input: 4 characters required");
+                    isValid = false;
+                    break;
                 }
+                else if (!char.IsLetter(char.Parse(guess.ToString())))
+                {
+                    Console.WriteLine("Invalid input: input must contain english letters only");
+                    isValid = false;
+                    break;
+                }
+                else if (!isCellUniqueInGuess(guess,index, i_guessSequenceFromUser))
+                {
+                    Console.WriteLine("Invalid input: input must contain unique english letters ");
+                    isValid = false;
+                    break;
+                }
+                else if (!i_itemsToChooseFrom.Contains(guess))
+                {
+                    Console.WriteLine("Invalid input: input must contain uppercase letters between A and H only");
+                    isValid = false;
+                    break;
+                }
+                 index++;
             }
             return isValid;
         }

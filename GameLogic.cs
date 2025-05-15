@@ -15,24 +15,30 @@ namespace Ex02
 
         public List<Guess<T>> ListOfGuesses { get; set; }
         public int NumberOfGuesses { get; set; }
-        public Guess<T> CorrectAnswer { get; }
+        public Guess<T> CorrectAnswer { get; set; }
 
         public GameLogic(int i_numberOfGuesses, List<T> i_itemsToChooseFrom)
         {
             setRandomCorrectAnswer(i_itemsToChooseFrom);
             NumberOfGuesses = i_numberOfGuesses;
-            m_listOfGuesses = new List<Guess<T>>(NumberOfGuesses);
+            ListOfGuesses = new List<Guess<T>>(NumberOfGuesses);
         }
 
         public bool addGuessToList(List<T> i_guessFromUser, List<T> i_itemsToChooseFrom)
         {
-            bool isAddedToList = false;
+            bool isAddedToList;
+            int bulls = 0, cows = 0;
             Guess<T> guess = new Guess<T>(i_guessFromUser, i_itemsToChooseFrom);
-
-            if(guess.GuessedSequence.Count != 0)
+            //
+            if (!guess.IsGuessValid(i_guessFromUser, i_itemsToChooseFrom))
             {
-                checkHowManyCowsAndBulls(i_guessFromUser, guess.ResultOfGuess.Bulls, guess.ResultOfGuess.Cows);
-                m_listOfGuesses.Add(guess);
+                isAddedToList = false;
+            }
+            else
+            {
+                checkHowManyCowsAndBulls(i_guessFromUser, ref bulls, ref cows);
+                guess.ResultOfGuess = new Result(bulls, cows);
+                ListOfGuesses.Add(guess);
                 isAddedToList = true;
             }
             return isAddedToList;
@@ -40,7 +46,7 @@ namespace Ex02
         private void setRandomCorrectAnswer(List<T> i_itemsToChooseFrom)
         {
             Random random = new Random();
-            m_correctAnswer = new Guess<T>(i_itemsToChooseFrom, random);
+            CorrectAnswer = new Guess<T>(i_itemsToChooseFrom, random);
         }
 
         public bool IsTheCurrentGuessAWin(Guess<T> i_guessFromUser)
@@ -52,7 +58,7 @@ namespace Ex02
             }
             return isTheCurrentGuess;
         }
-        public void checkHowManyCowsAndBulls(List<T> i_guessFromUser, int bulls, int cows)
+        public void checkHowManyCowsAndBulls(List<T> i_guessFromUser, ref int bulls, ref int cows)
         {
             for (int index = 0; index < i_guessFromUser.Count; index++)
             {
@@ -68,18 +74,18 @@ namespace Ex02
         }
         private bool isCellCow(List<T> i_guessFromUser, int index)
         {
-            return i_guessFromUser.Contains(m_correctAnswer.GuessedSequence[index]);
+            return i_guessFromUser.Contains(CorrectAnswer.GuessedSequence[index]);
         }
 
         private bool isCellBull(List<T> i_guessFromUser, int index)
         {
-            return i_guessFromUser[index].Equals(m_correctAnswer.GuessedSequence[index]);
+            return i_guessFromUser[index].Equals(CorrectAnswer.GuessedSequence[index]);
         }
 
         public bool IsFailedGame()
         {
             bool isFailedGame = false;
-            if(m_listOfGuesses.Count == m_numberOfGusses && !IsTheCurrentGuessAWin(ListOfGuesses[m_numberOfGusses-1]))
+            if(ListOfGuesses.Count == NumberOfGuesses && !IsTheCurrentGuessAWin(ListOfGuesses[NumberOfGuesses-1]))
             {
                 isFailedGame = true;
             }
