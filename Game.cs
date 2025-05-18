@@ -70,7 +70,7 @@ namespace Ex02
         {
             Console.WriteLine("Would you like to start a new game? (Y/N)");
             string userAnswer = Console.ReadLine();
-            if (userAnswer.ToUpper() != "Y")
+            if (userAnswer != null && userAnswer.ToUpper() != "Y")
             {
                 m_isGameOn = false;
             }
