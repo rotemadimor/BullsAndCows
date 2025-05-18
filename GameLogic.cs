@@ -29,7 +29,7 @@ namespace Ex02
             bool isAddedToList;
             int bulls = 0, cows = 0;
             Guess<T> guess = new Guess<T>(i_guessFromUser, i_itemsToChooseFrom);
-            //
+            
             if (!guess.IsGuessValid(i_guessFromUser, i_itemsToChooseFrom))
             {
                 isAddedToList = false;
@@ -51,11 +51,8 @@ namespace Ex02
 
         public bool IsTheCurrentGuessAWin(Guess<T> i_guessFromUser)
         {
-            bool isTheCurrentGuess = false;
-            if (i_guessFromUser.ResultOfGuess.Bulls == 4) 
-            {
-                isTheCurrentGuess = true;
-            }
+            bool isTheCurrentGuess = (i_guessFromUser.ResultOfGuess.Bulls == 4);
+
             return isTheCurrentGuess;
         }
         public void checkHowManyCowsAndBulls(List<T> i_guessFromUser, ref int bulls, ref int cows)
@@ -84,21 +81,13 @@ namespace Ex02
 
         public bool IsFailedGame()
         {
-            bool isFailedGame = false;
-            if(ListOfGuesses.Count == NumberOfGuesses && !IsTheCurrentGuessAWin(ListOfGuesses[NumberOfGuesses-1]))
-            {
-                isFailedGame = true;
-            }
+            bool isFailedGame = ListOfGuesses.Count == NumberOfGuesses && !IsTheCurrentGuessAWin(ListOfGuesses[NumberOfGuesses-1]);
             return isFailedGame;
         }
 
         public bool IsUserQuitGame(List<T> i_inputFromUser, List<T> i_quitingInput)
         {
-            bool isUserQuitGame = false;    
-            if(i_inputFromUser.Equals(i_quitingInput))
-            {
-                isUserQuitGame = true;
-            }
+            bool isUserQuitGame = i_inputFromUser.Equals(i_quitingInput);
             return isUserQuitGame;
         }
 

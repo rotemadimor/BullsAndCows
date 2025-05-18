@@ -12,14 +12,12 @@ namespace Ex02
     internal class GameUI
     {
         public int NumberOfGuesses { get; set; }
-        const int k_numberOfItemsInGuess = 4;
-        const int k_minNumberOfGuesses = 4;
-        const int k_maxNumberOfGuesses = 10;
-        const char k_bullChar = 'V';
-        const char k_cowChar = 'X';
-        const char k_wrongGuessChar = ' ';
-
-        public GameUI() { }
+        private const int k_NumberOfItemsInGuess = 4;
+        private const int k_MinNumberOfGuesses = 4;
+        private const int k_MaxNumberOfGuesses = 10;
+        private const char k_BullChar = 'V';
+        private const char k_CowChar = 'X';
+        private const char k_WrongGuessChar = ' ';
 
         public void Start()
         {
@@ -32,7 +30,7 @@ namespace Ex02
         {
             Console.WriteLine("Type number of guesses (4-10):");
             NumberOfGuesses = Convert.ToInt32(Console.ReadLine());
-            while (NumberOfGuesses > k_maxNumberOfGuesses || NumberOfGuesses < k_minNumberOfGuesses)
+            while (NumberOfGuesses > k_MaxNumberOfGuesses || NumberOfGuesses < k_MinNumberOfGuesses)
             {
                 Console.WriteLine("Invalid number of guesses");
                 Console.WriteLine("Type number of guesses(4-10):");
@@ -86,8 +84,8 @@ namespace Ex02
             }
             else
             {
-            Console.WriteLine("| # # # # |          |");
-            Console.WriteLine("|=========|==========|");
+                Console.WriteLine("| # # # # |          |");
+                Console.WriteLine("|=========|==========|");
             }
            
         }
@@ -117,19 +115,19 @@ namespace Ex02
 
         private static string printableResultToTable(Result i_resultToPrint)
         {
-            int numberOfSpaces = k_numberOfItemsInGuess - i_resultToPrint.Bulls - i_resultToPrint.Cows;
-            List<char> toPrintResult = new List<char>(k_numberOfItemsInGuess);
+            int numberOfSpaces = k_NumberOfItemsInGuess - i_resultToPrint.Bulls - i_resultToPrint.Cows;
+            List<char> toPrintResult = new List<char>(k_NumberOfItemsInGuess);
             for (int b = 0; b < i_resultToPrint.Bulls; b++)
             {
-                toPrintResult.Add(k_bullChar);
+                toPrintResult.Add(k_BullChar);
             }
             for (int c = 0; c < i_resultToPrint.Cows; c++)
             {
-                toPrintResult.Add(k_cowChar);
+                toPrintResult.Add(k_CowChar);
             }
             for(int s = 0;  s < numberOfSpaces; s++)
             {
-                toPrintResult.Add(k_wrongGuessChar);
+                toPrintResult.Add(k_WrongGuessChar);
             }
             string printableResult = new string(toPrintResult.ToArray());
             return addSpacesBetweenChars(printableResult);
@@ -140,15 +138,8 @@ namespace Ex02
         {
             Screen.Clear();
             PrintTableWithGuesses(i_guesses, i_isGameLost, i_correctAnswer);
-            if (i_isGameLost)
-            {
-                Console.WriteLine("No more guesses allowed. You Lost.");
-            }
-            else
-            {
-                Console.WriteLine($"You guessed after {i_guesses.Count} steps!");
-            }
-            }
+            Console.WriteLine(i_isGameLost ? "No more guesses allowed. You Lost." : $"You guessed after {i_guesses.Count} steps!");
+        }
 
         private static string addSpacesBetweenChars(string i_input)
         {
