@@ -23,9 +23,20 @@ namespace Ex02
         public void Start()
         {
             Screen.Clear();
-            Console.WriteLine("Type number of guesses:");
+            getNumberOfGuessesFromUser();
+            printEmptyTable(false, null);
+        }
+
+        private void getNumberOfGuessesFromUser()
+        {
+            Console.WriteLine("Type number of guesses (4-10):");
             NumberOfGuesses = Convert.ToInt32(Console.ReadLine());
-            printEmptyTable(false,null);
+            while (NumberOfGuesses > 10 || NumberOfGuesses < 4)
+            {
+                Console.WriteLine("Invalid number of guesses");
+                Console.WriteLine("Type number of guesses(4-10):");
+                NumberOfGuesses = Convert.ToInt32(Console.ReadLine());
+            }
         }
 
         public List<char> GetGuessInputFromUser()
