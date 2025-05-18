@@ -13,8 +13,8 @@ namespace Ex02
         private GameUI m_gameUI = new GameUI();
         private GameLogic<char> m_gameLogic;
         private bool m_isGameOn;
-        private List<char> m_itemsToChooseFromToGuess = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
-        private List<char> m_quitingInput = new List<char> { 'Q' };
+        private readonly List<char> r_itemsToChooseFromToGuess = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+        private readonly List<char> r_quitingInput = new List<char> { 'Q' };
 
 
         public void GameLoop()
@@ -23,16 +23,16 @@ namespace Ex02
             while (m_isGameOn)
             {
                 m_gameUI.Start();
-                m_gameLogic = new GameLogic<char>(m_gameUI.NumberOfGuesses, m_itemsToChooseFromToGuess);
+                m_gameLogic = new GameLogic<char>(m_gameUI.NumberOfGuesses, r_itemsToChooseFromToGuess);
                 for (int i = 0; i < m_gameUI.NumberOfGuesses && m_isGameOn; i++)
                 {
                     List<char> userInput = m_gameUI.GetGuessInputFromUser();
-                    if (m_gameLogic.IsUserQuitGame(userInput, m_quitingInput))
+                    if (m_gameLogic.IsUserQuitGame(userInput, r_quitingInput))
                     {
                         m_isGameOn = false;
                         break;
                     }
-                    if (!m_gameLogic.addGuessToList(userInput, m_itemsToChooseFromToGuess))
+                    if (!m_gameLogic.addGuessToList(userInput, r_itemsToChooseFromToGuess))
                     {
                         i--;
                         continue;
