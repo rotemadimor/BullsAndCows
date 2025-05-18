@@ -11,7 +11,7 @@ namespace Ex02
 {
     internal class GameUI
     {
-        private int m_numberOfGuesses;
+        //private int m_numberOfGuesses;
         public int NumberOfGuesses { get; set; }
         const int k_numberOfItemsInGuess = 4;
         const char k_bullChar = 'V';
