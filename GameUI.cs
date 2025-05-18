@@ -11,9 +11,10 @@ namespace Ex02
 {
     internal class GameUI
     {
-        //private int m_numberOfGuesses;
         public int NumberOfGuesses { get; set; }
         const int k_numberOfItemsInGuess = 4;
+        const int k_minNumberOfGuesses = 4;
+        const int k_maxNumberOfGuesses = 10;
         const char k_bullChar = 'V';
         const char k_cowChar = 'X';
         const char k_wrongGuessChar = ' ';
@@ -31,7 +32,7 @@ namespace Ex02
         {
             Console.WriteLine("Type number of guesses (4-10):");
             NumberOfGuesses = Convert.ToInt32(Console.ReadLine());
-            while (NumberOfGuesses > 10 || NumberOfGuesses < 4)
+            while (NumberOfGuesses > k_maxNumberOfGuesses || NumberOfGuesses < k_minNumberOfGuesses)
             {
                 Console.WriteLine("Invalid number of guesses");
                 Console.WriteLine("Type number of guesses(4-10):");
