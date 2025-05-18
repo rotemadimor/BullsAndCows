@@ -8,8 +8,7 @@ namespace Ex02
 {
     internal class Guess<T>
     {
-        private Result m_result;
-        const int k_numberOfItemsInGuess = 4;
+        private const int k_NumberOfItemsInGuess = 4;
         public List<T> GuessedSequence { get; set; }
         public Result ResultOfGuess { get; set; }
         
@@ -18,22 +17,25 @@ namespace Ex02
             GuessedSequence = new List<T>(i_guessFromUser);
             ResultOfGuess = new Result(i_bulls, i_cows);
         }
+
         public Guess(List<T> i_guessFromUser, List<T> i_itemsToChooseFrom)
         {
            GuessedSequence = new List<T>(i_guessFromUser);
         }
+
         public Guess(List<T> i_itemsToChooseFrom, Random i_randomSeed)
         {
             GuessedSequence = setRandomT(i_itemsToChooseFrom, i_randomSeed);
             ResultOfGuess = new Result(0, 0);
         }
-        private List<T> setRandomT(List<T> i_itemsToChooseFrom, Random randomSeed)
+
+        private List<T> setRandomT(List<T> i_itemsToChooseFrom, Random i_randomSeed)
         {
-            List<T> randomGuess = new List<T>(k_numberOfItemsInGuess);
+            List<T> randomGuess = new List<T>(k_NumberOfItemsInGuess);
             int numberOfFilledCells = 0;
-            while(numberOfFilledCells < k_numberOfItemsInGuess)
+            while(numberOfFilledCells < k_NumberOfItemsInGuess)
             {
-                T randomCell = GetRandomFromList(i_itemsToChooseFrom, randomSeed);
+                T randomCell = GetRandomFromList(i_itemsToChooseFrom, i_randomSeed);
                 if (isCellUniqueInGuess(randomCell, numberOfFilledCells,randomGuess))
                 {
                     randomGuess.Add(randomCell);
@@ -53,6 +55,7 @@ namespace Ex02
         private bool isCellUniqueInGuess(T i_cellToCheck, int i_indexToCheck, List<T> i_arrayToCheck)
         {
             bool isUnique = true;
+
             for (int index = 0; index < i_indexToCheck; index++)
             {
                 if (i_cellToCheck.Equals(i_arrayToCheck[index]))
@@ -63,13 +66,15 @@ namespace Ex02
 
             return isUnique;
         }
+
         public bool IsGuessValid(List<T> i_guessSequenceFromUser, List<T> i_itemsToChooseFrom)
         {
             bool isValid = true;
             int index = 0;
+
             foreach (T guess in i_guessSequenceFromUser)
             {
-                if (i_guessSequenceFromUser.Count != k_numberOfItemsInGuess || guess.GetType() != typeof(T))
+                if (i_guessSequenceFromUser.Count != k_NumberOfItemsInGuess || guess.GetType() != typeof(T))
                 {
                     Console.WriteLine("Invalid input: 4 characters required");
                     isValid = false;
@@ -93,8 +98,9 @@ namespace Ex02
                     isValid = false;
                     break;
                 }
-                 index++;
+                index++;
             }
+
             return isValid;
         }
     }

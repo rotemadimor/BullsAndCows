@@ -9,10 +9,6 @@ namespace Ex02
 {
     internal class GameLogic<T>
     {
-        private List<Guess<T>> m_listOfGuesses;
-        private int m_numberOfGusses;
-        private Guess<T> m_correctAnswer;
-
         public List<Guess<T>> ListOfGuesses { get; set; }
         public int NumberOfGuesses { get; set; }
         public Guess<T> CorrectAnswer { get; set; }
@@ -29,7 +25,7 @@ namespace Ex02
             bool isAddedToList;
             int bulls = 0, cows = 0;
             Guess<T> guess = new Guess<T>(i_guessFromUser, i_itemsToChooseFrom);
-            //
+            
             if (!guess.IsGuessValid(i_guessFromUser, i_itemsToChooseFrom))
             {
                 isAddedToList = false;
@@ -43,6 +39,7 @@ namespace Ex02
             }
             return isAddedToList;
         }
+
         private void setRandomCorrectAnswer(List<T> i_itemsToChooseFrom)
         {
             Random random = new Random();
@@ -51,13 +48,11 @@ namespace Ex02
 
         public bool IsTheCurrentGuessAWin(Guess<T> i_guessFromUser)
         {
-            bool isTheCurrentGuess = false;
-            if (i_guessFromUser.ResultOfGuess.Bulls == 4) 
-            {
-                isTheCurrentGuess = true;
-            }
+            bool isTheCurrentGuess = (i_guessFromUser.ResultOfGuess.Bulls == 4);
+
             return isTheCurrentGuess;
         }
+
         public void checkHowManyCowsAndBulls(List<T> i_guessFromUser, ref int bulls, ref int cows)
         {
             for (int index = 0; index < i_guessFromUser.Count; index++)
@@ -72,33 +67,26 @@ namespace Ex02
                 }
             }
         }
+
         private bool isCellCow(List<T> i_guessFromUser, int index)
         {
             return i_guessFromUser.Contains(CorrectAnswer.GuessedSequence[index]);
         }
 
-        private bool isCellBull(List<T> i_guessFromUser, int index)
+        private bool isCellBull(List<T> i_guessFromUser, int i_index)
         {
-            return i_guessFromUser[index].Equals(CorrectAnswer.GuessedSequence[index]);
+            return i_guessFromUser[i_index].Equals(CorrectAnswer.GuessedSequence[i_index]);
         }
 
         public bool IsFailedGame()
         {
-            bool isFailedGame = false;
-            if(ListOfGuesses.Count == NumberOfGuesses && !IsTheCurrentGuessAWin(ListOfGuesses[NumberOfGuesses-1]))
-            {
-                isFailedGame = true;
-            }
+            bool isFailedGame = ListOfGuesses.Count == NumberOfGuesses && !IsTheCurrentGuessAWin(ListOfGuesses[NumberOfGuesses-1]);
             return isFailedGame;
         }
 
         public bool IsUserQuitGame(List<T> i_inputFromUser, List<T> i_quitingInput)
         {
-            bool isUserQuitGame = false;    
-            if(i_inputFromUser.Equals(i_quitingInput))
-            {
-                isUserQuitGame = true;
-            }
+            bool isUserQuitGame = i_inputFromUser.Equals(i_quitingInput);
             return isUserQuitGame;
         }
 

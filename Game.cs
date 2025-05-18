@@ -10,48 +10,49 @@ namespace Ex02
 {
     internal class Game
     {
-        private GameUI m_gameUI = new GameUI();
-        private GameLogic<char> m_gameLogic;
-        private bool m_isGameOn;
-        private readonly List<char> r_itemsToChooseFromToGuess = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
-        private readonly List<char> r_quitingInput = new List<char> { 'Q' };
-
+        private GameUI m_GameUI = new GameUI();
+        private GameLogic<char> m_GameLogic;
+        private bool m_IsGameOn;
+        private readonly List<char> r_ItemsToChooseFromToGuess = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+        private readonly List<char> r_QuitingInput = new List<char> { 'Q' };
 
         public void GameLoop()
         {
-            m_isGameOn = true;
-            while (m_isGameOn)
+            m_IsGameOn = true;
+
+            while (m_IsGameOn)
             {
-                m_gameUI.Start();
-                m_gameLogic = new GameLogic<char>(m_gameUI.NumberOfGuesses, r_itemsToChooseFromToGuess);
-                for (int i = 0; i < m_gameUI.NumberOfGuesses && m_isGameOn; i++)
+                m_GameUI.Start();
+                m_GameLogic = new GameLogic<char>(m_GameUI.NumberOfGuesses, r_ItemsToChooseFromToGuess);
+                for (int i = 0; i < m_GameUI.NumberOfGuesses && m_IsGameOn; i++)
                 {
-                    List<char> userInput = m_gameUI.GetGuessInputFromUser();
-                    if (m_gameLogic.IsUserQuitGame(userInput, r_quitingInput))
+                    List<char> userInput = m_GameUI.GetGuessInputFromUser();
+                    if (m_GameLogic.IsUserQuitGame(userInput, r_QuitingInput))
                     {
-                        m_isGameOn = false;
+                        m_IsGameOn = false;
                         break;
                     }
-                    if (!m_gameLogic.addGuessToList(userInput, r_itemsToChooseFromToGuess))
+                    if (!m_GameLogic.addGuessToList(userInput, r_ItemsToChooseFromToGuess))
                     {
                         i--;
                         continue;
                     }
                     else
                     {
-                        m_gameUI.PrintTableWithGuesses(m_gameLogic.ListOfGuesses, false, m_gameLogic.CorrectAnswer);
-                        if (m_gameLogic.IsTheCurrentGuessAWin(m_gameLogic.ListOfGuesses[i]))
+                        m_GameUI.PrintTableWithGuesses(m_GameLogic.ListOfGuesses, false, m_GameLogic.CorrectAnswer);
+                        if (m_GameLogic.IsTheCurrentGuessAWin(m_GameLogic.ListOfGuesses[i]))
                         {
-                            m_gameUI.PrintGameSummery(m_gameLogic.ListOfGuesses,false,m_gameLogic.CorrectAnswer);
+                            m_GameUI.PrintGameSummery(m_GameLogic.ListOfGuesses,false,m_GameLogic.CorrectAnswer);
                         }
-                        else if (m_gameLogic.IsFailedGame())
+                        else if (m_GameLogic.IsFailedGame())
                         {
-                            m_gameUI.PrintGameSummery(m_gameLogic.ListOfGuesses, true, m_gameLogic.CorrectAnswer);
+                            m_GameUI.PrintGameSummery(m_GameLogic.ListOfGuesses, true, m_GameLogic.CorrectAnswer);
                         }
                         else
                         {
                             continue;
                         }
+
                         isContinueToANewGame();
                         break;
                     }
@@ -63,16 +64,15 @@ namespace Ex02
         public void PrintGoodbye()
         {
             Console.WriteLine("Bye Bye!!");
-            
         }
 
         private void isContinueToANewGame()
         {
             Console.WriteLine("Would you like to start a new game? (Y/N)");
             string userAnswer = Console.ReadLine();
-            if (userAnswer.ToUpper() != "Y")
+            if (userAnswer != null && userAnswer.ToUpper() != "Y")
             {
-                m_isGameOn = false;
+                m_IsGameOn = false;
             }
         }
     }
