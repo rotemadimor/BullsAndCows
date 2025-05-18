@@ -13,6 +13,10 @@ namespace Ex02
     {
         private int m_numberOfGuesses;
         public int NumberOfGuesses { get; set; }
+        const int k_numberOfItemsInGuess = 4;
+        const char k_bullChar = 'V';
+        const char k_cowChar = 'X';
+        const char k_wrongGuessChar = ' ';
 
         public GameUI() { }
 
@@ -101,19 +105,19 @@ namespace Ex02
 
         private static string printableResultToTable(Result i_resultToPrint)
         {
-            int numberOfSpaces = 4 - i_resultToPrint.Bulls - i_resultToPrint.Cows;
-            List<char> toPrintResult = new List<char>(4);
+            int numberOfSpaces = k_numberOfItemsInGuess - i_resultToPrint.Bulls - i_resultToPrint.Cows;
+            List<char> toPrintResult = new List<char>(k_numberOfItemsInGuess);
             for (int b = 0; b < i_resultToPrint.Bulls; b++)
             {
-                toPrintResult.Add('V');
+                toPrintResult.Add(k_bullChar);
             }
             for (int c = 0; c < i_resultToPrint.Cows; c++)
             {
-                toPrintResult.Add('X');
+                toPrintResult.Add(k_cowChar);
             }
             for(int s = 0;  s < numberOfSpaces; s++)
             {
-                toPrintResult.Add(' ');
+                toPrintResult.Add(k_wrongGuessChar);
             }
             string printableResult = new string(toPrintResult.ToArray());
             return addSpacesBetweenChars(printableResult);

@@ -9,7 +9,7 @@ namespace Ex02
     internal class Guess<T>
     {
         private Result m_result;
-        const int m_numberOfItemsInGuess = 4;
+        const int k_numberOfItemsInGuess = 4;
         public List<T> GuessedSequence { get; set; }
         public Result ResultOfGuess { get; set; }
         
@@ -29,9 +29,9 @@ namespace Ex02
         }
         private List<T> setRandomT(List<T> i_itemsToChooseFrom, Random randomSeed)
         {
-            List<T> randomGuess = new List<T>(m_numberOfItemsInGuess);
+            List<T> randomGuess = new List<T>(k_numberOfItemsInGuess);
             int numberOfFilledCells = 0;
-            while(numberOfFilledCells < m_numberOfItemsInGuess)
+            while(numberOfFilledCells < k_numberOfItemsInGuess)
             {
                 T randomCell = GetRandomFromList(i_itemsToChooseFrom, randomSeed);
                 if (isCellUniqueInGuess(randomCell, numberOfFilledCells,randomGuess))
@@ -68,7 +68,7 @@ namespace Ex02
             bool isValid = true;
             foreach (T guess in i_guessSequenceFromUser)
             {
-                if (i_guessSequenceFromUser.Count != m_numberOfItemsInGuess || guess.GetType() != typeof(T))
+                if (i_guessSequenceFromUser.Count != k_numberOfItemsInGuess || guess.GetType() != typeof(T))
                 {
                     Console.WriteLine("Invalid input: use only uppercase English letters (A–Z), 4 characters required");
                     isValid = false;
